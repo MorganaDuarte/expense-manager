@@ -1,4 +1,4 @@
-async function clickOnMe() {
+async function send() {
   try {
     const valueToSend = {
       "value_received": parseFloat(document.getElementById('valueReceived').value),
