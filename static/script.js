@@ -22,6 +22,6 @@ async function clickOnMe() {
     document.getElementById('account').innerText = data.account
   } catch (error) {
     console.error(error);
-    document.getElementById('value-received').innerText = 'Erro na requisição';
+    document.getElementById('value').innerText = 'Erro na requisição';
   }
 }
