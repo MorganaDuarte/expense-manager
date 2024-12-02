@@ -7,7 +7,7 @@ import (
 )
 
 type ValuesReceivedInput struct {
-	ValueReceived       string `json:"value_received"`
+	ValueReceived       int    `json:"value_received"`
 	DateReceived        string `json:"date_received"`
 	DescriptionReceived string `json:"description_received"`
 	AccountReceived     string `json:"account_received"`
@@ -23,7 +23,7 @@ func ValuesReceived(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	response := map[string]string{
+	response := map[string]any{
 		"value":       valueResponse.ValueReceived,
 		"date":        valueResponse.DateReceived,
 		"description": valueResponse.DescriptionReceived,
