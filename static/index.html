@@ -3,33 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>Gerenciador de Gastos</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div>
     <h1>Insira um valor</h1>
-
-    <label>
-      <input type="number" id="valueReceived" placeholder="Valor">
+    <label> Valor
+      <input type="number" id="valueReceived">
     </label>
-
-    <label>
+    <label> Data
       <input type="date" id="dateReceived">
     </label>
-
-    <label>
-      <input type="text" id="descriptionReceived" placeholder="Descrição">
+    <label> Descrição
+      <input type="text" id="descriptionReceived">
     </label>
-
-    <label>
-      <input type="text" id="accountReceived" placeholder="Conta">
+    <label> Conta
+      <input type="text" id="accountReceived">
     </label>
-
     <button onclick="send()">Enviar</button>
-    <div id="value"></div>
-    <div id="date"></div>
-    <div id="description"></div>
-    <div id="account"></div>
   </div>
+
+  <table>
+    <tr>
+      <th>Valor</th>
+      <th>Data</th>
+      <th>Descrição</th>
+      <th>Conta</th>
+    </tr>
+    <tr>
+      <td id="value"></td>
+      <td id="date"></td>
+      <td id="description"></td>
+      <td id="account"></td>
+    </tr>
+  </table>
 
   <script src="script.js"></script>
 </body>
