@@ -15,9 +15,10 @@ async function clickOnMe() {
 
     const data = await response.json();
     console.log(data);
-    document.getElementById('message').innerText = data.value
+    document.getElementById('value-received').innerText = data.value
+    document.getElementById('date-received').innerText = data.date
   } catch (error) {
     console.error(error);
-    document.getElementById('message').innerText = 'Erro na requisição';
+    document.getElementById('value-received').innerText = 'Erro na requisição';
   }
 }
