@@ -10,6 +10,7 @@ type ValuesReceivedInput struct {
 	ValueReceived       string `json:"value_received"`
 	DateReceived        string `json:"date_received"`
 	DescriptionReceived string `json:"description_received"`
+	AccountReceived     string `json:"account_received"`
 }
 
 func ValuesReceived(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +23,12 @@ func ValuesReceived(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	response := map[string]string{"value": valueResponse.ValueReceived, "date": valueResponse.DateReceived, "description": valueResponse.DescriptionReceived}
+	response := map[string]string{
+		"value":       valueResponse.ValueReceived,
+		"date":        valueResponse.DateReceived,
+		"description": valueResponse.DescriptionReceived,
+		"account":     valueResponse.AccountReceived,
+	}
 	if err := json.NewEncoder(w).Encode(response); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

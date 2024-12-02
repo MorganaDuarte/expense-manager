@@ -4,6 +4,7 @@ async function clickOnMe() {
       "value_received": document.getElementById('valueReceived').value,
       "date_received": document.getElementById('dateReceived').value,
       "description_received": document.getElementById('descriptionReceived').value,
+      "account_received": document.getElementById('accountReceived').value,
     };
 
     const response = await fetch('/api/values-received', {
@@ -15,10 +16,10 @@ async function clickOnMe() {
     if (!response.ok) throw new Error('Error calling API');
 
     const data = await response.json();
-    console.log(data);
     document.getElementById('value').innerText = data.value
     document.getElementById('date').innerText = data.date
     document.getElementById('description').innerText = data.description
+    document.getElementById('account').innerText = data.account
   } catch (error) {
     console.error(error);
     document.getElementById('value-received').innerText = 'Erro na requisição';
