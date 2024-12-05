@@ -13,21 +13,28 @@ type ValuesReceivedInput struct {
 	AccountReceived     string `json:"account_received"`
 }
 
-func ValuesReceived(w http.ResponseWriter, r *http.Request) {
-	var valueResponse ValuesReceivedInput
+type ValuesReceivedResponse struct {
+	Value       int    `json:"value"`
+	Date        string `json:"date"`
+	Description string `json:"description"`
+	Account     string `json:"account"`
+}
 
-	if err := json.NewDecoder(r.Body).Decode(&valueResponse); err != nil {
+func ValuesReceived(w http.ResponseWriter, r *http.Request) {
+	var valueInput ValuesReceivedInput
+
+	if err := json.NewDecoder(r.Body).Decode(&valueInput); err != nil {
 		log.Println("Error decoding JSON:", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	response := map[string]any{
-		"value":       valueResponse.ValueReceived,
-		"date":        valueResponse.DateReceived,
-		"description": valueResponse.DescriptionReceived,
-		"account":     valueResponse.AccountReceived,
+	response := ValuesReceivedResponse{
+		Value:       valueInput.ValueReceived,
+		Date:        valueInput.DateReceived,
+		Description: valueInput.DescriptionReceived,
+		Account:     valueInput.AccountReceived,
 	}
 	if err := json.NewEncoder(w).Encode(response); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
