@@ -26,7 +26,6 @@ type ValuesReceivedResponse struct {
 func ValuesReceived(w http.ResponseWriter, r *http.Request) {
 	var valueInput ValuesReceivedInput
 
-	fmt.Println(valueInput)
 	if err := json.NewDecoder(r.Body).Decode(&valueInput); err != nil {
 		log.Println("Error decoding JSON:", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -35,7 +34,7 @@ func ValuesReceived(w http.ResponseWriter, r *http.Request) {
 
 	dateReceived, err := time.Parse("2006-01-02", valueInput.DateReceived)
 	if err != nil {
-		fmt.Println("Erro ao converter a string em data:", err)
+		fmt.Println("Error converting string to date:", err)
 		return
 	}
 
