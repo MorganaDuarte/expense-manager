@@ -1,0 +1,1 @@
+export DATABASE=postgresql://morganaborba:123456@localhost:5432/expense_manager?sslmode=disable && go run .
