@@ -1,53 +1,40 @@
 package resource
 
 import (
-	"database/sql"
+	"context"
 	"fmt"
-	_ "github.com/lib/pq"
+	"github.com/jackc/pgx/v5"
 	"log"
+	"os"
 	"time"
 )
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "morganaborba"
-	password = "123456"
-	dbname   = "expense_manager"
-	sslmode  = false
-)
+type DatabaseResource struct {
+	Conn *pgx.Conn
+}
 
-type DatabaseResource struct{}
-
-var db *sql.DB
-var databaseResource *DatabaseResource
+var dbResource *DatabaseResource
 
 func GetDatabaseInstance() *DatabaseResource {
-	fmt.Printf("Accessing %s ... ", dbname)
-	if db != nil {
-		return databaseResource
+	if dbResource != nil {
+		return dbResource
 	}
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-
-	var err error
-	db, err = sql.Open("postgres", psqlInfo)
+	conn, err := pgx.Connect(context.Background(), os.Getenv("DATABASE"))
 	if err != nil {
 		log.Fatal("Error opening database:", err)
 	}
 
-	err = db.Ping()
-	if err != nil {
-		log.Fatal(err)
+	dbResource = &DatabaseResource{
+		Conn: conn,
 	}
-
-	return databaseResource
+	return dbResource
 }
 
 func (r *DatabaseResource) SaveValueReceived(value float32, date time.Time, description string, bank string) {
 	sqlString := "INSERT INTO values_received (user_id, value, date, description, bank) VALUES($1, $2, $3, $4, $5)"
 
-	_, err := db.Exec(sqlString, 1, value, date, description, bank)
+	_, err := r.Conn.Exec(context.Background(), sqlString, 1, value, date, description, bank)
 	if err != nil {
 		fmt.Println("Error saving value received:", err)
 		return
