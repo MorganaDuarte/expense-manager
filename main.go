@@ -9,6 +9,7 @@ import (
 func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/", fs)
+	http.HandleFunc("/api/save-account", controller.SaveAccount)
 	http.HandleFunc("/api/values-received", controller.ValuesReceived)
 
 	fmt.Println("Listening on port 8080")

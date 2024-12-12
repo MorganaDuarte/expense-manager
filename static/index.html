@@ -7,6 +7,32 @@
 </head>
 <body>
   <div>
+    <h1>Digite a conta e uma sigla</h1>
+    <label> Banco
+      <input type="text" id="bankValue">
+    </label>
+    <label> Conta
+      <input type="text" id="accountValue">
+    </label>
+    <label> Sigla
+      <input type="text" id="acronymValue">
+    </label>
+    <button onclick="saveAccount()">Salvar Conta</button>
+  </div>
+  <table>
+    <tr>
+      <th>Banco</th>
+      <th>Conta</th>
+      <th>Sigla</th>
+    </tr>
+    <tr>
+      <td id="bankSave"></td>
+      <td id="accountSave"></td>
+      <td id="acronymSave"></td>
+    </tr>
+  </table>
+
+  <div>
     <h1>Insira um valor</h1>
     <label> Valor
       <input type="number" id="valueReceived">
@@ -38,5 +64,5 @@
     </tr>
   </table>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
