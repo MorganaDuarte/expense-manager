@@ -23,9 +23,7 @@ func SaveAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if len(input.AcronymValue) > 3 {
-		log.Println("Invalid AcronymValue: must be up to 3 letters")
-		sendJSONError(w, "A sigla deve ter no máximo 3 letras.", http.StatusBadRequest)
+	if validateSaveAccount(w, input) {
 		return
 	}
 
@@ -37,4 +35,13 @@ func SaveAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer database.Conn.Close(context.Background())
+}
+
+func validateSaveAccount(w http.ResponseWriter, input *InputRequest) bool {
+	if len(input.AcronymValue) > 3 {
+		log.Println("Invalid AcronymValue: must be up to 3 letters")
+		sendJSONError(w, "A sigla deve ter no máximo 3 letras.", http.StatusBadRequest)
+		return true
+	}
+	return false
 }
