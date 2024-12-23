@@ -1,5 +1,5 @@
 async function saveAccount(event) {
-  event.preventDefault(); // Evita o reload da página ao enviar o formulário
+  event.preventDefault();
 
   try {
     const valueToSend = {
@@ -24,10 +24,8 @@ async function saveAccount(event) {
     document.getElementById('accountSave').innerText = valueToSend.account_value;
     document.getElementById('acronymSave').innerText = valueToSend.acronym_value;
 
-    // Limpa os campos após salvar
     document.getElementById('accountForm').reset();
 
-    // Limpa a mensagem de erro, caso exista
     document.getElementById('errorMessage').innerText = '';
   } catch (error) {
     console.error(error);
