@@ -24,11 +24,11 @@ func SaveAccount(w http.ResponseWriter, r *http.Request) {
 	}
 
 	database := resource.GetDatabaseInstance()
-	defer database.Conn.Close(context.Background())
 	_, err := database.SaveAccount(input.BankValue, input.AcronymValue, input.AcronymValue)
 	if err != nil {
 		log.Println("Error:", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	defer database.Conn.Close(context.Background())
 }

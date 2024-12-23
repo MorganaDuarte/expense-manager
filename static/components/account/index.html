@@ -2,36 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Defina seu Banco</title>
   <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
 <div>
-  <h1>Defina o seu banco!</h1>
-  <label> Banco
-    <input type="text" id="bankValue">
-  </label>
-  <label> Conta
-    <input type="text" id="accountValue">
-  </label>
-  <label> Sigla
-    <input type="text" id="acronymValue">
-  </label>
-  <button onclick="saveAccount()">Salvar Conta</button>
+  <h2>Defina o seu banco!</h2>
+  <h3>Crie uma sigla para usar depois nos seus gastos.</h3>
+  <form id="accountForm" onsubmit="saveAccount(event)">
+    <label for="bankValue">Banco</label>
+    <input type="text" id="bankValue" placeholder="Digite o banco" required>
+
+    <label for="accountValue">Conta</label>
+    <input type="text" id="accountValue" placeholder="Digite a conta" required>
+
+    <label for="acronymValue">Sigla</label>
+    <input type="text" id="acronymValue" placeholder="Digite a sigla" required>
+
+    <button type="submit">Salvar Conta</button>
+  </form>
 </div>
+
 <table>
+  <thead>
   <tr>
     <th>Banco</th>
     <th>Conta</th>
     <th>Sigla</th>
   </tr>
+  </thead>
+  <tbody>
   <tr>
     <td id="bankSave"></td>
     <td id="accountSave"></td>
     <td id="acronymSave"></td>
   </tr>
+  </tbody>
 </table>
 
+<p id="errorMessage" style="color: red;"></p>
 
 <script src="script.js" defer></script>
 </body>
+</html>
