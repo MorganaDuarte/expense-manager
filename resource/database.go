@@ -53,3 +53,30 @@ func (r *DatabaseResource) SaveAccount(bank, account, acronym string) (int64, er
 	rowsAffected := result.RowsAffected()
 	return rowsAffected, nil
 }
+
+func (r *DatabaseResource) SelectAccountsByUserID(id int64) ([]Account, error) {
+	sqlString := "SELECT * FROM banks WHERE user_id = $1"
+
+	response, err := r.Conn.Query(context.Background(), sqlString, id)
+	if err != nil {
+		return nil, err
+	}
+
+	var results []Account
+	for response.Next() {
+		var row Account
+		err = response.Scan(
+			&row.ID,
+			&row.UserID,
+			&row.Bank,
+			&row.Account,
+			&row.Acronym,
+		)
+		if err != nil {
+			return nil, err
+		}
+		results = append(results, row)
+	}
+
+	return results, nil
+}

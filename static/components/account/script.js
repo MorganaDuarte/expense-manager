@@ -36,3 +36,44 @@ async function saveAccount(event) {
     document.getElementById('errorMessage').innerText = error.message;
   }
 }
+
+async function getAccounts() {
+  try {
+    const response = await fetch('/api/get-accounts', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error fetching accounts: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    const tbody = document.querySelector("table tbody");
+    tbody.innerHTML = "";
+
+    data.forEach((account) => {
+      const row = document.createElement("tr");
+
+      const bankCell = document.createElement("td");
+      bankCell.textContent = account.bank;
+      row.appendChild(bankCell);
+
+      const accountCell = document.createElement("td");
+      accountCell.textContent = account.account;
+      row.appendChild(accountCell);
+
+      const acronymCell = document.createElement("td");
+      acronymCell.textContent = account.acronym;
+      row.appendChild(acronymCell);
+
+      tbody.appendChild(row);
+    });
+  } catch (error) {
+    console.error(error);
+    document.getElementById('errorMessage').innerText = error.message;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", getAccounts);
