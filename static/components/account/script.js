@@ -18,7 +18,11 @@ async function saveAccount(event) {
       body: JSON.stringify(valueToSend),
     });
 
-    if (!response.ok) throw new Error('Erro ao salvar os dados. Por favor, tente novamente.');
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Erro ao salvar os dados. Por favor, tente novamente.');
+    }
+
 
     document.getElementById('bankSave').innerText = valueToSend.bank_value;
     document.getElementById('accountSave').innerText = valueToSend.account_value;

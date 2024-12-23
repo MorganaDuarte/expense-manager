@@ -23,6 +23,12 @@ func SaveAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(input.AcronymValue) > 3 {
+		log.Println("Invalid AcronymValue: must be up to 3 letters")
+		sendJSONError(w, "A sigla deve ter no máximo 3 letras.", http.StatusBadRequest)
+		return
+	}
+
 	database := resource.GetDatabaseInstance()
 	_, err := database.SaveAccount(input.BankValue, input.AcronymValue, input.AcronymValue)
 	if err != nil {
