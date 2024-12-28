@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"context"
 	"encoding/json"
 	"expense-manager/resource"
 	"fmt"
@@ -40,7 +39,7 @@ func ValuesReceived(w http.ResponseWriter, r *http.Request) {
 	}
 
 	database := resource.GetDatabaseInstance()
-	defer database.Conn.Close(context.Background())
+	defer database.Close()
 
 	database.SaveValueReceived(valueInput.ValueReceived, dateReceived, valueInput.DescriptionReceived, valueInput.AccountReceived)
 	w.Header().Set("Content-Type", "application/json")

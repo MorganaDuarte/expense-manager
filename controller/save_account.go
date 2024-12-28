@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"context"
 	"encoding/json"
 	"expense-manager/resource"
 	"log"
@@ -28,13 +27,14 @@ func SaveAccount(w http.ResponseWriter, r *http.Request) {
 	}
 
 	database := resource.GetDatabaseInstance()
+	database.Close()
 	_, err := database.SaveAccount(input.BankValue, input.AcronymValue, input.AcronymValue)
 	if err != nil {
 		log.Println("Error:", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	defer database.Conn.Close(context.Background())
+
 }
 
 func validateSaveAccount(w http.ResponseWriter, input *InputRequest) bool {

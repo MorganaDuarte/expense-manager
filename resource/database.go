@@ -31,6 +31,11 @@ func GetDatabaseInstance() *DatabaseResource {
 	return dbResource
 }
 
+func (r *DatabaseResource) Close() {
+	dbResource = nil
+	r.Conn.Close(context.Background())
+}
+
 func (r *DatabaseResource) SaveValueReceived(value float32, date time.Time, description string, bank string) {
 	sqlString := "INSERT INTO values_received (user_id, value, date, description, bank) VALUES($1, $2, $3, $4, $5)"
 
