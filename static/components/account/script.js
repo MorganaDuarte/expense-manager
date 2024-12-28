@@ -7,6 +7,7 @@ async function saveBankAccount(event) {
       description_value: document.getElementById('descriptionValue').value.trim(),
     };
 
+
     if (!valueToSend.acronym_value) {
       throw new Error('A sigla é obrigatória!');
     }
@@ -23,8 +24,7 @@ async function saveBankAccount(event) {
     }
 
 
-    document.getElementById('acronymSave').innerText = valueToSend.acronym_value;
-    document.getElementById('descriptionSave').innerText = valueToSend.description_value;
+    await getAccounts();
 
 
     document.getElementById('accountForm').reset();
@@ -55,17 +55,13 @@ async function getAccounts() {
     data.forEach((account) => {
       const row = document.createElement("tr");
 
-      const bankCell = document.createElement("td");
-      bankCell.textContent = account.bank;
-      row.appendChild(bankCell);
-
-      const accountCell = document.createElement("td");
-      accountCell.textContent = account.account;
-      row.appendChild(accountCell);
-
       const acronymCell = document.createElement("td");
       acronymCell.textContent = account.acronym;
       row.appendChild(acronymCell);
+
+      const descriptionCell = document.createElement("td");
+      descriptionCell.textContent = account.description;
+      row.appendChild(descriptionCell);
 
       tbody.appendChild(row);
     });

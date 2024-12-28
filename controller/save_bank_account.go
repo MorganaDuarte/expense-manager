@@ -8,8 +8,8 @@ import (
 )
 
 type InputRequest struct {
-	AcronymValue string `json:"acronym_value"`
-	Description  string `json:"description"`
+	AcronymValue     string `json:"acronym_value"`
+	DescriptionValue string `json:"description_value"`
 }
 
 func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +27,7 @@ func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
 
 	database := resource.GetDatabaseInstance()
 	defer database.Close()
-	_, err := database.SaveBankAccount(input.AcronymValue, input.Description)
+	_, err := database.SaveBankAccount(input.AcronymValue, input.DescriptionValue)
 	if err != nil {
 		log.Println("Error:", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)

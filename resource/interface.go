@@ -11,9 +11,8 @@ type Interface interface {
 }
 
 type Account struct {
-	ID      int64  `json:"id"`
-	UserID  int64  `json:"user_id"`
-	Bank    string `json:"bank"`
-	Account string `json:"account"`
-	Acronym string `json:"acronym"`
+	ID          int64  `json:"id"`
+	UserID      int64  `json:"user_id"`
+	Acronym     string `json:"acronym"`
+	Description string `json:"description"`
 }
