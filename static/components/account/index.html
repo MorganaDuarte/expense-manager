@@ -3,40 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Defina seu Banco</title>
+  <title>Defina sua sigla</title>
   <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
 <div>
-  <h2>Defina o seu banco!</h2>
+  <h2>Defina sua sigla!</h2>
   <h3>Crie uma sigla para usar depois nos seus gastos.</h3>
-  <form id="accountForm" onsubmit="saveAccount(event)">
-    <label for="bankValue">Banco</label>
-    <input type="text" id="bankValue" placeholder="Digite o banco" required>
-
-    <label for="accountValue">Conta</label>
-    <input type="text" id="accountValue" placeholder="Digite a conta" required>
-
+  <form id="accountForm" onsubmit="saveBankAccount(event)">
     <label for="acronymValue">Sigla</label>
     <input type="text" id="acronymValue" placeholder="Digite a sigla" required>
 
-    <button type="submit">Salvar Conta</button>
+    <label for="acronymValue">Descrição</label>
+    <input type="text" id="descriptionValue" placeholder="Digite uma descrição" required>
+
+    <button type="submit">Salvar</button>
   </form>
 </div>
 
 <table>
   <thead>
   <tr>
-    <th>Banco</th>
-    <th>Conta</th>
     <th>Sigla</th>
+    <th>Descrição</th>
   </tr>
   </thead>
   <tbody>
   <tr>
-    <td id="bankSave"></td>
-    <td id="accountSave"></td>
     <td id="acronymSave"></td>
+    <td id="descriptionSave"></td>
   </tr>
   </tbody>
 </table>

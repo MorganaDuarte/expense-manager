@@ -46,10 +46,10 @@ func (r *DatabaseResource) SaveValueReceived(value float32, date time.Time, desc
 	}
 }
 
-func (r *DatabaseResource) SaveBankAccount(bank, account, acronym string) (int64, error) {
-	sqlString := "INSERT INTO banks (user_id, bank, account, acronym) VALUES($1, $2, $3, $4)"
+func (r *DatabaseResource) SaveBankAccount(acronym, description string) (int64, error) {
+	sqlString := "INSERT INTO bank_accounts (user_id, acronym, description) VALUES($1, $2, $3)"
 
-	result, err := r.Conn.Exec(context.Background(), sqlString, 1, bank, account, acronym)
+	result, err := r.Conn.Exec(context.Background(), sqlString, 1, acronym, description)
 	if err != nil {
 		fmt.Println("Error saving account", err)
 		return 0, err
