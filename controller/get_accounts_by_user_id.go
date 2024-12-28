@@ -7,11 +7,11 @@ import (
 	"net/http"
 )
 
-func GetAccountsByUserID(w http.ResponseWriter, r *http.Request) {
+func GetBankAccountsByUserID(w http.ResponseWriter, r *http.Request) {
 	database := resource.GetDatabaseInstance()
 	defer database.Close()
 
-	results, err := database.SelectAccountsByUserID(1)
+	results, err := database.SelectBanksAccountsByUserID(1)
 	if err != nil {
 		log.Println("Error:", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)

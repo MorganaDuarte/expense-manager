@@ -59,7 +59,7 @@ func (r *DatabaseResource) SaveBankAccount(bank, account, acronym string) (int64
 	return rowsAffected, nil
 }
 
-func (r *DatabaseResource) SelectAccountsByUserID(id int64) ([]Account, error) {
+func (r *DatabaseResource) SelectBanksAccountsByUserID(id int64) ([]Account, error) {
 	sqlString := "SELECT * FROM banks WHERE user_id = $1"
 
 	response, err := r.Conn.Query(context.Background(), sqlString, id)

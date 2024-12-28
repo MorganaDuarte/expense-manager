@@ -7,7 +7,7 @@ import (
 type Interface interface {
 	SaveValueReceived(value float32, date time.Time, description string, bank string)
 	SaveBankAccount(bank, account, acronym string) (int64, error)
-	SelectAccountsByUserID(id int64) ([]Account, error)
+	SelectBanksAccountsByUserID(id int64) ([]Account, error)
 }
 
 type Account struct {
