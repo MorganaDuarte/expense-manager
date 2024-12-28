@@ -9,7 +9,7 @@ import (
 func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/", fs)
-	http.HandleFunc("/api/save-account", controller.SaveAccount)
+	http.HandleFunc("/api/save-account", controller.SaveBankAccount)
 	http.HandleFunc("/api/get-accounts", controller.GetAccountsByUserID)
 	http.HandleFunc("/api/values-received", controller.ValuesReceived)
 

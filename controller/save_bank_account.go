@@ -13,7 +13,7 @@ type InputRequest struct {
 	AcronymValue string `json:"acronym_value"`
 }
 
-func SaveAccount(w http.ResponseWriter, r *http.Request) {
+func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
 	var input *InputRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
@@ -22,13 +22,13 @@ func SaveAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if validateSaveAccount(w, input) {
+	if validateSaveBankAccount(w, input) {
 		return
 	}
 
 	database := resource.GetDatabaseInstance()
 	database.Close()
-	_, err := database.SaveAccount(input.BankValue, input.AcronymValue, input.AcronymValue)
+	_, err := database.SaveBankAccount(input.BankValue, input.AcronymValue, input.AcronymValue)
 	if err != nil {
 		log.Println("Error:", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -37,7 +37,7 @@ func SaveAccount(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func validateSaveAccount(w http.ResponseWriter, input *InputRequest) bool {
+func validateSaveBankAccount(w http.ResponseWriter, input *InputRequest) bool {
 	if len(input.AcronymValue) > 3 {
 		log.Println("Invalid AcronymValue: must be up to 3 letters")
 		sendJSONError(w, "A sigla deve ter no máximo 3 letras.", http.StatusBadRequest)
