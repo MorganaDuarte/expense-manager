@@ -12,7 +12,7 @@ async function saveBankAccount(event) {
       throw new Error('A sigla é obrigatória!');
     }
 
-    const response = await fetch('/api/save-account', {
+    const response = await fetch('/api/save-bank-account', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(valueToSend),
@@ -38,7 +38,7 @@ async function saveBankAccount(event) {
 
 async function getAccounts() {
   try {
-    const response = await fetch('/api/get-accounts', {
+    const response = await fetch('/api/get-bank-accounts', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
