@@ -24,7 +24,7 @@ async function saveBankAccount(event) {
     }
 
 
-    await getAccounts();
+    await getBankAccounts();
 
 
     document.getElementById('accountForm').reset();
@@ -36,7 +36,7 @@ async function saveBankAccount(event) {
   }
 }
 
-async function getAccounts() {
+async function getBankAccounts() {
   try {
     const response = await fetch('/api/get-bank-accounts', {
       method: 'GET',
@@ -71,4 +71,4 @@ async function getAccounts() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", getAccounts);
+document.addEventListener("DOMContentLoaded", getBankAccounts);
