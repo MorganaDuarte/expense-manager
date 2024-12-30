@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"expense-manager/resource"
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -21,13 +22,15 @@ func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if validateSaveBankAccount(w, input) {
+	err := validateSaveBankAccountInput(input)
+	if err != nil {
+		sendJSONError(w, err, http.StatusBadRequest)
 		return
 	}
 
 	database := resource.GetDatabaseInstance()
 	defer database.Close()
-	_, err := database.SaveBankAccount(input.AcronymValue, input.DescriptionValue)
+	_, err = database.SaveBankAccount(input.AcronymValue, input.DescriptionValue)
 	if err != nil {
 		log.Println("Error:", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -36,17 +39,15 @@ func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func validateSaveBankAccount(w http.ResponseWriter, input *SaveBankAccountInput) bool {
+func validateSaveBankAccountInput(input *SaveBankAccountInput) error {
 	if len(input.AcronymValue) == 0 {
 		log.Println("AcronymValue can`t be empty")
-		sendJSONError(w, "A sigla não pode ser vazia.", http.StatusBadRequest)
-		return true
+		return fmt.Errorf("A sigla não pode ser vazia")
 	}
 
 	if len(input.AcronymValue) > 3 {
 		log.Println("Invalid AcronymValue: must be up to 3 letters")
-		sendJSONError(w, "A sigla deve ter no máximo 3 letras.", http.StatusBadRequest)
-		return true
+		return fmt.Errorf("A sigla deve ter no máximo 3 letras")
 	}
-	return false
+	return nil
 }
