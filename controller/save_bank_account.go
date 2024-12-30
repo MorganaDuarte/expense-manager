@@ -33,7 +33,7 @@ func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
 	_, err = database.SaveBankAccount(input.AcronymValue, input.DescriptionValue)
 	if err != nil {
 		log.Println("Error:", err)
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
