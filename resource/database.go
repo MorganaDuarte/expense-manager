@@ -2,6 +2,7 @@ package resource
 
 import (
 	"context"
+	"expense-manager/domains/bankaccounts"
 	"fmt"
 	"github.com/jackc/pgx/v5"
 	"log"
@@ -59,7 +60,7 @@ func (r *DatabaseResource) SaveBankAccount(acronym, description string) (int64, 
 	return rowsAffected, nil
 }
 
-func (r *DatabaseResource) SelectBanksAccountsByUserID(id int64) ([]Account, error) {
+func (r *DatabaseResource) SelectBanksAccountsByUserID(id int64) ([]*bankaccounts.BankAccount, error) {
 	sqlString := "SELECT * FROM bank_accounts WHERE user_id = $1"
 
 	response, err := r.Conn.Query(context.Background(), sqlString, id)
@@ -67,18 +68,17 @@ func (r *DatabaseResource) SelectBanksAccountsByUserID(id int64) ([]Account, err
 		return nil, err
 	}
 
-	var results []Account
+	var results []*bankaccounts.BankAccount
 	for response.Next() {
-		var row Account
-		err = response.Scan(
-			&row.ID,
-			&row.UserID,
-			&row.Acronym,
-			&row.Description,
-		)
+		var id, userID int64
+		var acronym, description string
+
+		err = response.Scan(&id, &userID, &acronym, &description)
 		if err != nil {
 			return nil, err
 		}
+
+		row := bankaccounts.New(id, userID, acronym, description)
 		results = append(results, row)
 	}
 
