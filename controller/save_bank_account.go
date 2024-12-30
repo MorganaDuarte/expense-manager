@@ -7,13 +7,13 @@ import (
 	"net/http"
 )
 
-type InputRequest struct {
+type SaveBankAccountInput struct {
 	AcronymValue     string `json:"acronym_value"`
 	DescriptionValue string `json:"description_value"`
 }
 
 func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
-	var input *InputRequest
+	var input *SaveBankAccountInput
 
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println("Error decoding JSON:", err)
@@ -36,7 +36,7 @@ func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func validateSaveBankAccount(w http.ResponseWriter, input *InputRequest) bool {
+func validateSaveBankAccount(w http.ResponseWriter, input *SaveBankAccountInput) bool {
 	if len(input.AcronymValue) == 0 {
 		log.Println("AcronymValue can`t be empty")
 		sendJSONError(w, "A sigla não pode ser vazia.", http.StatusBadRequest)
