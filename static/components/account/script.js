@@ -3,12 +3,11 @@ async function saveBankAccount(event) {
 
   try {
     const valueToSend = {
-      acronym_value: document.getElementById('acronymValue').value.trim(),
-      description_value: document.getElementById('descriptionValue').value.trim(),
+      acronymValue: document.getElementById('acronymValue').value.trim(),
+      descriptionValue: document.getElementById('descriptionValue').value.trim(),
     };
 
-
-    if (!valueToSend.acronym_value) {
+    if (!valueToSend.acronymValue) {
       throw new Error('A sigla é obrigatória!');
     }
 
@@ -23,12 +22,9 @@ async function saveBankAccount(event) {
       throw new Error(errorData.message || 'Erro ao salvar os dados. Por favor, tente novamente.');
     }
 
-
     await getBankAccounts();
 
-
     document.getElementById('accountForm').reset();
-
     document.getElementById('errorMessage').innerText = '';
   } catch (error) {
     console.error(error);
