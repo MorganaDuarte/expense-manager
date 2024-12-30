@@ -61,7 +61,7 @@ func (r *DatabaseResource) SaveBankAccount(acronym, description string) (int64, 
 }
 
 func (r *DatabaseResource) SelectBanksAccountsByUserID(id int64) ([]*bankaccounts.BankAccount, error) {
-	sqlString := "SELECT * FROM bank_accounts WHERE user_id = $1"
+	sqlString := "SELECT id, user_id, acronym, description FROM bank_accounts WHERE user_id = $1"
 
 	response, err := r.Conn.Query(context.Background(), sqlString, id)
 	if err != nil {
