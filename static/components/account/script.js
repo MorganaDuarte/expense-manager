@@ -44,27 +44,30 @@ async function getBankAccounts() {
     }
 
     const data = await response.json();
-
-    const tbody = document.querySelector("table tbody");
-    tbody.innerHTML = "";
-
-    data.forEach((account) => {
-      const row = document.createElement("tr");
-
-      const acronymCell = document.createElement("td");
-      acronymCell.textContent = account.acronym;
-      row.appendChild(acronymCell);
-
-      const descriptionCell = document.createElement("td");
-      descriptionCell.textContent = account.description;
-      row.appendChild(descriptionCell);
-
-      tbody.appendChild(row);
-    });
+    createBankAccountTableRow(data);
   } catch (error) {
     console.error(error);
     document.getElementById('errorMessage').innerText = error.message;
   }
+}
+
+function createBankAccountTableRow(data) {
+  const tbody = document.getElementById("bankAccountRow");
+  tbody.innerHTML = "";
+
+  data.forEach((account) => {
+    const row = document.createElement("tr");
+
+    const acronymCell = document.createElement("td");
+    acronymCell.textContent = account.acronym;
+    row.appendChild(acronymCell);
+
+    const descriptionCell = document.createElement("td");
+    descriptionCell.textContent = account.description;
+    row.appendChild(descriptionCell);
+
+    tbody.appendChild(row);
+  });
 }
 
 document.addEventListener("DOMContentLoaded", getBankAccounts);
