@@ -37,6 +37,7 @@ func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.WriteHeader(http.StatusCreated)
 }
 
 func validateSaveBankAccountInput(input *SaveBankAccountInput) error {
