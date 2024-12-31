@@ -9,8 +9,8 @@ import (
 )
 
 type SaveBankAccountInput struct {
-	AcronymValue     string `json:"acronym_value"`
-	DescriptionValue string `json:"description_value"`
+	AcronymValue     string `json:"acronymValue"`
+	DescriptionValue string `json:"descriptionValue"`
 }
 
 func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
