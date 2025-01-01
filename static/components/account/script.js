@@ -1,11 +1,4 @@
-async function saveBankAccount(event) {
-  event.preventDefault();
-
-  try {
-    const valueToSend = {
-      acronymValue: document.getElementById('acronymValue').value.trim(),
-      descriptionValue: document.getElementById('descriptionValue').value.trim(),
-    };
+import { sendRequest } from '../../services/send_request.js';
 
     if (!valueToSend.acronymValue) {
       throw new Error('A sigla é obrigatória!');
@@ -33,25 +26,17 @@ async function saveBankAccount(event) {
 }
 
 async function getBankAccounts() {
-  try {
-    const response = await fetch('/api/get-bank-accounts', {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    });
+  const response = await sendRequest('/api/get-bank-accounts', 'GET');
 
-    if (!response.ok) {
-      throw new Error(`Error fetching accounts: ${response.status}`);
-    }
-
-    const data = await response.json();
-    createBankAccountTableRow(data);
-  } catch (error) {
-    console.error(error);
-    document.getElementById('errorMessage').innerText = error.message;
-  }
+  if(response.hasError()) setErrorMessage(response.getErrorMessage());
+  else createBankAccountTableRows(response.getBody());
 }
 
-function createBankAccountTableRow(data) {
+function setErrorMessage(message) {
+  document.getElementById('errorMessage').innerText = message;
+}
+
+function createBankAccountTableRows(data) {
   const tbody = document.getElementById("bankAccountRow");
   tbody.innerHTML = "";
 
