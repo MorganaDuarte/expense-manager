@@ -1,27 +1,23 @@
 import { sendRequest } from '../../services/send_request.js';
 
-    if (!valueToSend.acronymValue) {
-      throw new Error('A sigla é obrigatória!');
-    }
+async function saveBankAccount(event) {
+  event.preventDefault();
 
-    const response = await fetch('/api/save-bank-account', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(valueToSend),
-    });
+  const body = {
+    acronymValue: document.getElementById('acronymValue').value.trim(),
+    descriptionValue: document.getElementById('descriptionValue').value.trim(),
+  };
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Erro ao salvar os dados. Por favor, tente novamente.');
-    }
+  if (!body.acronymValue) {
+    throw new Error('A sigla é obrigatória!');
+  }
 
+  const response = await sendRequest('/api/save-bank-account', 'POST', "", body);
+  if(response.hasError()) {
+    setErrorMessage(response.getErrorMessage());
+  } else {
     await getBankAccounts();
-
     document.getElementById('accountForm').reset();
-    document.getElementById('errorMessage').innerText = '';
-  } catch (error) {
-    console.error(error);
-    document.getElementById('errorMessage').innerText = error.message;
   }
 }
 
@@ -40,7 +36,7 @@ function createBankAccountTableRows(data) {
   const tbody = document.getElementById("bankAccountRow");
   tbody.innerHTML = "";
 
-  data.forEach((account) => {
+  data?.forEach((account) => {
     const row = document.createElement("tr");
 
     const acronymCell = document.createElement("td");
@@ -56,3 +52,6 @@ function createBankAccountTableRows(data) {
 }
 
 document.addEventListener("DOMContentLoaded", getBankAccounts);
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById('accountForm').addEventListener('submit', saveBankAccount);
+});

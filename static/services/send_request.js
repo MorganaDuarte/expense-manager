@@ -6,14 +6,23 @@ export async function sendRequest(url, method, errorMessage, body) {
     const response = await fetch(url, {
       method: method,
       headers: { 'Content-Type': 'application/json' },
-      body: body
+      body: JSON.stringify(body)
     });
 
     if (!response.ok) {
       throw new Error(errorMessage);
     }
 
-    bodyResponse = await response.json();
+    const contentType = response.headers.get('Content-Type');
+    const contentLength = response.headers.get('Content-Length');
+
+    if (contentLength > 0) {
+      if (contentType && contentType.includes('application/json')) {
+        bodyResponse = await response.json();
+      } else {
+        bodyResponse = await response.text();
+      }
+    }
   } catch (error) {
     console.error(error);
     errorResponse = error
