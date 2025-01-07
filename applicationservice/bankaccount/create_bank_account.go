@@ -11,15 +11,13 @@ type CreateBankAccountInput struct {
 	DescriptionValue string `json:"descriptionValue"`
 }
 
-func CreateBankAccount(input *CreateBankAccountInput) error {
+func CreateBankAccount(input *CreateBankAccountInput, resource resource.Interface) error {
 	err := validateSaveBankAccountInput(input)
 	if err != nil {
 		return err
 	}
 
-	database := resource.GetDatabaseInstance()
-	defer database.Close()
-	err = database.SaveBankAccount(input.AcronymValue, input.DescriptionValue)
+	err = resource.SaveBankAccount(input.AcronymValue, input.DescriptionValue)
 	if err != nil {
 		log.Println("Error:", err)
 		return err

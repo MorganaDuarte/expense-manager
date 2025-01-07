@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"expense-manager/applicationservice/bankaccount"
+	"expense-manager/resource"
 	"log"
 	"net/http"
 )
@@ -16,7 +17,9 @@ func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := bankaccount.CreateBankAccount(input)
+	database := resource.GetDatabaseInstance()
+	defer database.Close()
+	err := bankaccount.CreateBankAccount(input, database)
 	if err != nil {
 		log.Println("Error:", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
