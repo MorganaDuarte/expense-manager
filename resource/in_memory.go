@@ -33,7 +33,14 @@ func (r *InMemoryResource) SaveBankAccount(acronym, description string) error {
 }
 
 func (r *InMemoryResource) SelectBanksAccountsByUserID(id int64) ([]*bankaccounts.BankAccount, error) {
-	return r.bankAccounts, nil
+	var bankAccounts []*bankaccounts.BankAccount
+
+	for _, bankAccount := range r.bankAccounts {
+		if bankAccount.UserID == id {
+			bankAccounts = append(bankAccounts, bankAccount)
+		}
+	}
+	return bankAccounts, nil
 }
 
 func (r *InMemoryResource) CleanMemory() {

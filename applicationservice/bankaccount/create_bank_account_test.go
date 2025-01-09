@@ -14,10 +14,10 @@ func TestCreateBankAccount(t *testing.T) {
 
 	inMemory := resource.GetInstance()
 	err := bankaccount.CreateBankAccount(createBankAccountInput, inMemory)
-
 	if err != nil {
 		t.Errorf("expected no error, but got %v", err)
 	}
+
 	inMemory.CleanMemory()
 }
 

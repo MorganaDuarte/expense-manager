@@ -19,6 +19,7 @@ func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
 
 	database := resource.GetDatabaseInstance()
 	defer database.Close()
+
 	err := bankaccount.CreateBankAccount(input, database)
 	if err != nil {
 		log.Println("Error:", err)
