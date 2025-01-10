@@ -13,11 +13,7 @@ export async function sendRequest(url, method, errorMessage, body) {
 
     const contentType = response.headers.get('Content-Type');
 
-    if (contentType?.includes('application/json')) {
-      bodyResponse = await response.json();
-    } else {
-      bodyResponse = await response.text();
-    }
+    bodyResponse = contentType?.includes('application/json') ? await response.json() : await response.text();
   } catch (error) {
     console.error(error);
     errorResponse = error
