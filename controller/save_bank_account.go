@@ -9,8 +9,8 @@ import (
 )
 
 type SaveBankAccountInput struct {
-	AcronymValue     string `json:"acronymValue"`
-	DescriptionValue string `json:"descriptionValue"`
+	Acronym     string `json:"acronym"`
+	Description string `json:"description"`
 }
 
 func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +30,7 @@ func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
 
 	database := resource.GetDatabaseInstance()
 	defer database.Close()
-	err = database.SaveBankAccount(input.AcronymValue, input.DescriptionValue)
+	err = database.SaveBankAccount(input.Acronym, input.Description)
 	if err != nil {
 		log.Println("Error:", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -41,13 +41,13 @@ func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
 }
 
 func validateSaveBankAccountInput(input *SaveBankAccountInput) error {
-	if len(input.AcronymValue) == 0 {
-		log.Println("AcronymValue can`t be empty")
+	if len(input.Acronym) == 0 {
+		log.Println("Acronym can`t be empty")
 		return fmt.Errorf("A sigla não pode ser vazia")
 	}
 
-	if len(input.AcronymValue) > 3 {
-		log.Println("Invalid AcronymValue: must be up to 3 letters")
+	if len(input.Acronym) > 3 {
+		log.Println("Invalid Acronym: must be up to 3 letters")
 		return fmt.Errorf("A sigla deve ter no máximo 3 letras")
 	}
 	return nil

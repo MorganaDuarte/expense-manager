@@ -4,11 +4,11 @@ async function saveBankAccount(event) {
   event.preventDefault();
 
   const body = {
-    acronymValue: document.getElementById('acronymValue').value.trim(),
-    descriptionValue: document.getElementById('descriptionValue').value.trim(),
+    acronym: document.getElementById('acronymValue').value.trim(),
+    description: document.getElementById('descriptionValue').value.trim(),
   };
 
-  if (!body.acronymValue) {
+  if (!body.acronym) {
     throw new Error('A sigla é obrigatória!');
   }
 
