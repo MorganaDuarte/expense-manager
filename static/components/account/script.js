@@ -15,9 +15,7 @@ async function saveBankAccount(event) {
     description: document.getElementById('descriptionValue').value.trim(),
   };
 
-  if (!body.acronym) {
-    throw new Error('A sigla é obrigatória!');
-  }
+  if (!body.acronym) throw new Error('A sigla é obrigatória!');
 
   const response = await sendRequest('/api/save-bank-account', 'POST', "", body);
   if(response.hasError()) {
