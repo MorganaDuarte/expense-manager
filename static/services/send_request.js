@@ -9,19 +9,14 @@ export async function sendRequest(url, method, errorMessage, body) {
       body: JSON.stringify(body)
     });
 
-    if (!response.ok) {
-      throw new Error(errorMessage);
-    }
+    if (!response.ok) throw new Error(errorMessage);
 
     const contentType = response.headers.get('Content-Type');
-    const contentLength = response.headers.get('Content-Length');
 
-    if (contentLength > 0) {
-      if (contentType && contentType.includes('application/json')) {
-        bodyResponse = await response.json();
-      } else {
-        bodyResponse = await response.text();
-      }
+    if (contentType?.includes('application/json')) {
+      bodyResponse = await response.json();
+    } else {
+      bodyResponse = await response.text();
     }
   } catch (error) {
     console.error(error);
