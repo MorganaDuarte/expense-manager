@@ -1,5 +1,12 @@
 import { sendRequest } from '../../services/send_request.js';
 
+async function getBankAccounts() {
+  const response = await sendRequest('/api/get-bank-accounts', 'GET');
+
+  if(response.hasError()) setErrorMessage(response.getErrorMessage());
+  else createBankAccountTableRows(response.getBody());
+}
+
 async function saveBankAccount(event) {
   event.preventDefault();
 
@@ -19,13 +26,6 @@ async function saveBankAccount(event) {
     await getBankAccounts();
     document.getElementById('accountForm').reset();
   }
-}
-
-async function getBankAccounts() {
-  const response = await sendRequest('/api/get-bank-accounts', 'GET');
-
-  if(response.hasError()) setErrorMessage(response.getErrorMessage());
-  else createBankAccountTableRows(response.getBody());
 }
 
 function setErrorMessage(message) {
