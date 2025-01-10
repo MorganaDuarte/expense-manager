@@ -51,7 +51,7 @@ function createBankAccountTableRows(data) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", getBankAccounts);
 document.addEventListener("DOMContentLoaded", () => {
+  getBankAccounts();
   document.getElementById('accountForm').addEventListener('submit', saveBankAccount);
 });
