@@ -1,7 +1,8 @@
-import { sendRequest } from '../../services/send_request.js';
+import {RequestResponse } from '../../services/RequestResponse.js';
 
 async function getBankAccounts() {
-  const response = await sendRequest('/api/get-bank-accounts', 'GET');
+  const request = new RequestResponse();
+  const response = await request.sendRequest('/api/get-bank-accounts', 'GET');
 
   if(response.hasError()) setErrorMessage(response.getErrorMessage());
   else createBankAccountTableRows(response.getBody());
@@ -17,7 +18,8 @@ async function saveBankAccount(event) {
 
   if (!body.acronym) throw new Error('A sigla é obrigatória!');
 
-  const response = await sendRequest('/api/save-bank-account', 'POST', "", body);
+  const request = new RequestResponse();
+  const response = await request.sendRequest('/api/save-bank-account', 'POST', "", body);
   if(response.hasError()) {
     setErrorMessage(response.getErrorMessage());
   } else {
