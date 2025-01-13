@@ -1,31 +1,31 @@
-import { sendRequest } from '../../services/send_request.js';
+import RequestSender from "../../services/RequestSender.js";
+
+async function getBankAccounts() {
+  const requestSender = new RequestSender();
+  const response = await requestSender.send('/api/get-bank-accounts', 'GET');
+
+  if(response.hasError()) setErrorMessage(response.getErrorMessage());
+  else createBankAccountTableRows(response.getBody());
+}
 
 async function saveBankAccount(event) {
   event.preventDefault();
 
   const body = {
-    acronymValue: document.getElementById('acronymValue').value.trim(),
-    descriptionValue: document.getElementById('descriptionValue').value.trim(),
+    acronym: document.getElementById('acronymValue').value.trim(),
+    description: document.getElementById('descriptionValue').value.trim(),
   };
 
-  if (!body.acronymValue) {
-    throw new Error('A sigla é obrigatória!');
-  }
+  if (!body.acronym) throw new Error('A sigla é obrigatória!');
 
-  const response = await sendRequest('/api/save-bank-account', 'POST', "", body);
+  const requestSender = new RequestSender();
+  const response = await requestSender.send('/api/save-bank-account', 'POST', "", body);
   if(response.hasError()) {
     setErrorMessage(response.getErrorMessage());
   } else {
     await getBankAccounts();
     document.getElementById('accountForm').reset();
   }
-}
-
-async function getBankAccounts() {
-  const response = await sendRequest('/api/get-bank-accounts', 'GET');
-
-  if(response.hasError()) setErrorMessage(response.getErrorMessage());
-  else createBankAccountTableRows(response.getBody());
 }
 
 function setErrorMessage(message) {
@@ -51,7 +51,7 @@ function createBankAccountTableRows(data) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", getBankAccounts);
 document.addEventListener("DOMContentLoaded", () => {
+  getBankAccounts();
   document.getElementById('accountForm').addEventListener('submit', saveBankAccount);
 });
