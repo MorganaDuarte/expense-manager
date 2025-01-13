@@ -8,8 +8,8 @@ import (
 
 func TestCreateBankAccount(t *testing.T) {
 	createBankAccountInput := &bankaccount.CreateBankAccountInput{
-		AcronymValue:     "NuC",
-		DescriptionValue: "Conta Corrente",
+		Acronym:     "NuC",
+		Description: "Conta Corrente",
 	}
 
 	inMemory := resource.GetInstance()
@@ -23,8 +23,8 @@ func TestCreateBankAccount(t *testing.T) {
 
 func TestCreateBankAccountWithAcronymEmpty(t *testing.T) {
 	createBankAccountInput := &bankaccount.CreateBankAccountInput{
-		AcronymValue:     "",
-		DescriptionValue: "Cartão",
+		Acronym:     "",
+		Description: "Cartão",
 	}
 
 	inMemory := resource.GetInstance()
@@ -39,8 +39,8 @@ func TestCreateBankAccountWithAcronymEmpty(t *testing.T) {
 
 func TestCreateBankAccountWithAcronymTooLong(t *testing.T) {
 	createBankAccountInput := &bankaccount.CreateBankAccountInput{
-		AcronymValue:     "aeeeeeee",
-		DescriptionValue: "Cartão",
+		Acronym:     "aeeeeeee",
+		Description: "Cartão",
 	}
 
 	inMemory := resource.GetInstance()
