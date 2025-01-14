@@ -59,7 +59,7 @@ func (r *DatabaseResource) SaveBankAccount(acronym, description string) error {
 	return nil
 }
 
-func (r *DatabaseResource) SelectBanksAccountsByUserID(id int64) ([]*bankaccounts.BankAccount, error) {
+func (r *DatabaseResource) SelectBanksAccountsByUserID(id int) ([]*bankaccounts.BankAccount, error) {
 	sqlString := "SELECT id, user_id, acronym, description FROM bank_accounts WHERE user_id = $1"
 
 	response, err := r.Conn.Query(context.Background(), sqlString, id)
@@ -69,7 +69,7 @@ func (r *DatabaseResource) SelectBanksAccountsByUserID(id int64) ([]*bankaccount
 
 	var results []*bankaccounts.BankAccount
 	for response.Next() {
-		var id, userID int64
+		var id, userID int
 		var acronym, description string
 
 		err = response.Scan(&id, &userID, &acronym, &description)

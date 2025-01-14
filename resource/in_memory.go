@@ -32,7 +32,7 @@ func (r *InMemoryResource) SaveBankAccount(acronym, description string) error {
 	return nil
 }
 
-func (r *InMemoryResource) SelectBanksAccountsByUserID(id int64) ([]*bankaccounts.BankAccount, error) {
+func (r *InMemoryResource) SelectBanksAccountsByUserID(id int) ([]*bankaccounts.BankAccount, error) {
 	var bankAccounts []*bankaccounts.BankAccount
 
 	for _, bankAccount := range r.bankAccounts {
