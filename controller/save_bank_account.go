@@ -2,14 +2,14 @@ package controller
 
 import (
 	"encoding/json"
-	"expense-manager/applicationservice/bankaccount"
+	"expense-manager/applicationservice"
 	"expense-manager/resource"
 	"log"
 	"net/http"
 )
 
 func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
-	var input *bankaccount.CreateBankAccountInput
+	var input *applicationservice.CreateBankAccountInput
 
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		log.Println("Error decoding JSON:", err)
@@ -20,7 +20,7 @@ func SaveBankAccount(w http.ResponseWriter, r *http.Request) {
 	database := resource.GetDatabaseInstance()
 	defer database.Close()
 
-	err := bankaccount.CreateBankAccount(input, database)
+	err := applicationservice.CreateBankAccount(input, database)
 	if err != nil {
 		log.Println("Error:", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)

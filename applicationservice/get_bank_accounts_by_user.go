@@ -1,4 +1,4 @@
-package bankaccount
+package applicationservice
 
 import (
 	"expense-manager/domains/bankaccounts"

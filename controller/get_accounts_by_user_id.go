@@ -2,7 +2,7 @@ package controller
 
 import (
 	"encoding/json"
-	"expense-manager/applicationservice/bankaccount"
+	"expense-manager/applicationservice"
 	"expense-manager/resource"
 	"log"
 	"net/http"
@@ -12,7 +12,7 @@ func GetBankAccountsByUserID(w http.ResponseWriter, r *http.Request) {
 	database := resource.GetDatabaseInstance()
 	defer database.Close()
 
-	results, err := bankaccount.GetBankAccountsByUser(1, database)
+	results, err := applicationservice.GetBankAccountsByUser(1, database)
 	if err != nil {
 		log.Println("Error:", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
