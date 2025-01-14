@@ -13,12 +13,13 @@ func TestCreateBankAccount(t *testing.T) {
 	}
 
 	inMemory := resource.GetInstance()
+	defer inMemory.CleanMemory()
+
 	err := applicationservice.CreateBankAccount(createBankAccountInput, inMemory)
 	if err != nil {
 		t.Errorf("expected no error, but got %v", err)
 	}
 
-	inMemory.CleanMemory()
 }
 
 func TestCreateBankAccountWithAcronymEmpty(t *testing.T) {
@@ -28,13 +29,13 @@ func TestCreateBankAccountWithAcronymEmpty(t *testing.T) {
 	}
 
 	inMemory := resource.GetInstance()
-	err := applicationservice.CreateBankAccount(createBankAccountInput, inMemory)
+	defer inMemory.CleanMemory()
 
+	err := applicationservice.CreateBankAccount(createBankAccountInput, inMemory)
 	expectedMessage := "A sigla não pode ser vazia"
 	if err == nil || err.Error() != expectedMessage {
 		t.Errorf("expected error message %q, got %q", expectedMessage, err)
 	}
-	inMemory.CleanMemory()
 }
 
 func TestCreateBankAccountWithAcronymTooLong(t *testing.T) {
@@ -44,11 +45,11 @@ func TestCreateBankAccountWithAcronymTooLong(t *testing.T) {
 	}
 
 	inMemory := resource.GetInstance()
-	err := applicationservice.CreateBankAccount(createBankAccountInput, inMemory)
+	defer inMemory.CleanMemory()
 
+	err := applicationservice.CreateBankAccount(createBankAccountInput, inMemory)
 	expectedMessage := "A sigla deve ter no máximo 3 letras"
 	if err == nil || err.Error() != expectedMessage {
 		t.Errorf("expected error message %q, got %q", expectedMessage, err)
 	}
-	inMemory.CleanMemory()
 }
