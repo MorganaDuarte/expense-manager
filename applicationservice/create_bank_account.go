@@ -19,7 +19,6 @@ func CreateBankAccount(input *CreateBankAccountInput, resource resource.Interfac
 
 	err = resource.SaveBankAccount(input.Acronym, input.Description)
 	if err != nil {
-		log.Println("Error:", err)
 		return err
 	}
 	return nil
