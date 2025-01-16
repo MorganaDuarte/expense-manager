@@ -1,12 +1,12 @@
 package resource
 
 import (
-	"expense-manager/domains/bankaccounts"
+	"expense-manager/domains/bankaccount"
 	"time"
 )
 
 type InMemoryResource struct {
-	bankAccounts []*bankaccounts.BankAccount
+	bankAccounts []*bankaccount.BankAccount
 }
 
 var inMemoryInstance *InMemoryResource
@@ -23,17 +23,18 @@ func GetInstance() *InMemoryResource {
 func (r *InMemoryResource) SaveValueReceived(value float32, date time.Time, description string, bank string) {
 }
 
-func (r *InMemoryResource) SaveBankAccount(acronym, description string) error {
-	bankAccount := &bankaccounts.BankAccount{
-		Acronym:     acronym,
-		Description: description,
+func (r *InMemoryResource) SaveBankAccount(bankAccount *bankaccount.BankAccount) error {
+	b := &bankaccount.BankAccount{
+		UserID:      bankAccount.UserID,
+		Acronym:     bankAccount.Acronym,
+		Description: bankAccount.Description,
 	}
-	r.bankAccounts = append(r.bankAccounts, bankAccount)
+	r.bankAccounts = append(r.bankAccounts, b)
 	return nil
 }
 
-func (r *InMemoryResource) SelectBanksAccountsByUserID(id int) ([]*bankaccounts.BankAccount, error) {
-	var bankAccounts []*bankaccounts.BankAccount
+func (r *InMemoryResource) SelectBanksAccountsByUserID(id int) ([]*bankaccount.BankAccount, error) {
+	var bankAccounts []*bankaccount.BankAccount
 
 	for _, bankAccount := range r.bankAccounts {
 		if bankAccount.UserID == id {
@@ -44,5 +45,5 @@ func (r *InMemoryResource) SelectBanksAccountsByUserID(id int) ([]*bankaccounts.
 }
 
 func (r *InMemoryResource) CleanMemory() {
-	r.bankAccounts = []*bankaccounts.BankAccount{}
+	r.bankAccounts = []*bankaccount.BankAccount{}
 }
