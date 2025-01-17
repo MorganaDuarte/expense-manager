@@ -14,16 +14,9 @@ type CreateBankAccountInput struct {
 
 func CreateBankAccount(input *CreateBankAccountInput, resource resource.Interface) error {
 	fakeUserID := 1
-	existingBankAccounts, err := resource.SelectBanksAccountsByUserID(fakeUserID)
+	err := verifyIfAlreadyExist(input.Acronym, resource, fakeUserID)
 	if err != nil {
 		return err
-	}
-
-	for _, existingBankAccount := range existingBankAccounts {
-		if existingBankAccount.Acronym == input.Acronym {
-			log.Println("Invalid AcronymValue: existing acronym")
-			return fmt.Errorf("sigla já existente")
-		}
 	}
 
 	bankAccount, err := bankaccount.New(0, fakeUserID, input.Acronym, input.Description)
@@ -34,6 +27,21 @@ func CreateBankAccount(input *CreateBankAccountInput, resource resource.Interfac
 	err = resource.SaveBankAccount(bankAccount)
 	if err != nil {
 		return err
+	}
+	return nil
+}
+
+func verifyIfAlreadyExist(acronym string, resource resource.Interface, userID int) error {
+	existingBankAccounts, err := resource.SelectBanksAccountsByUserID(userID)
+	if err != nil {
+		return err
+	}
+
+	for _, existingBankAccount := range existingBankAccounts {
+		if existingBankAccount.Acronym == acronym {
+			log.Println("Invalid AcronymValue: existing acronym")
+			return fmt.Errorf("sigla já existente")
+		}
 	}
 	return nil
 }
