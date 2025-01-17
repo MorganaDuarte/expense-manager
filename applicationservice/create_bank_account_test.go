@@ -53,3 +53,23 @@ func TestCreateBankAccountWithAcronymTooLong(t *testing.T) {
 		t.Errorf("expected error message %q, got %q", expectedMessage, err)
 	}
 }
+
+func TestCreateBankAccountWithRepeatedAcronym(t *testing.T) {
+	createBankAccountInput := &applicationservice.CreateBankAccountInput{
+		Acronym:     "ae",
+		Description: "Cartão",
+	}
+	createBankAccountInput2 := &applicationservice.CreateBankAccountInput{
+		Acronym:     "ae",
+		Description: "Cartão",
+	}
+	inMemory := resource.GetInstance()
+	defer inMemory.CleanMemory()
+
+	applicationservice.CreateBankAccount(createBankAccountInput, inMemory)
+	err := applicationservice.CreateBankAccount(createBankAccountInput2, inMemory)
+	expectedMessage := "sigla já existente"
+	if err == nil || err.Error() != expectedMessage {
+		t.Errorf("expected error message %q, got %q", expectedMessage, err)
+	}
+}
