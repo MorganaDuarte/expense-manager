@@ -2,7 +2,7 @@ package resource
 
 import (
 	"context"
-	"expense-manager/domains/bankaccounts"
+	"expense-manager/domains/bankaccount"
 	"fmt"
 	"github.com/jackc/pgx/v5"
 	"log"
@@ -47,10 +47,10 @@ func (r *DatabaseResource) SaveValueReceived(value float32, date time.Time, desc
 	}
 }
 
-func (r *DatabaseResource) SaveBankAccount(acronym, description string) error {
+func (r *DatabaseResource) SaveBankAccount(bankAccount *bankaccount.BankAccount) error {
 	sqlString := "INSERT INTO bank_accounts (user_id, acronym, description) VALUES($1, $2, $3)"
 
-	_, err := r.Conn.Exec(context.Background(), sqlString, 1, acronym, description)
+	_, err := r.Conn.Exec(context.Background(), sqlString, bankAccount.UserID, bankAccount.Acronym, bankAccount.Description)
 	if err != nil {
 		fmt.Println("Error saving account", err)
 		return err
@@ -59,7 +59,7 @@ func (r *DatabaseResource) SaveBankAccount(acronym, description string) error {
 	return nil
 }
 
-func (r *DatabaseResource) SelectBanksAccountsByUserID(id int64) ([]*bankaccounts.BankAccount, error) {
+func (r *DatabaseResource) SelectBanksAccountsByUserID(id int) ([]*bankaccount.BankAccount, error) {
 	sqlString := "SELECT id, user_id, acronym, description FROM bank_accounts WHERE user_id = $1"
 
 	response, err := r.Conn.Query(context.Background(), sqlString, id)
@@ -67,9 +67,9 @@ func (r *DatabaseResource) SelectBanksAccountsByUserID(id int64) ([]*bankaccount
 		return nil, err
 	}
 
-	var results []*bankaccounts.BankAccount
+	var results []*bankaccount.BankAccount
 	for response.Next() {
-		var id, userID int64
+		var id, userID int
 		var acronym, description string
 
 		err = response.Scan(&id, &userID, &acronym, &description)
@@ -77,7 +77,10 @@ func (r *DatabaseResource) SelectBanksAccountsByUserID(id int64) ([]*bankaccount
 			return nil, err
 		}
 
-		row := bankaccounts.New(id, userID, acronym, description)
+		row, err := bankaccount.New(id, userID, acronym, description)
+		if err != nil {
+			return nil, err
+		}
 		results = append(results, row)
 	}
 
