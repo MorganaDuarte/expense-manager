@@ -1,11 +1,17 @@
 import RequestSender from "../../services/RequestSender.js";
 
+let bankAccounts = [];
+
 async function getBankAccounts() {
   const requestSender = new RequestSender();
   const response = await requestSender.send('/api/get-bank-accounts', 'GET');
 
-  if(response.hasError()) setErrorMessage(response.getErrorMessage());
-  else createBankAccountTableRows(response.getBody());
+  if(response.hasError()) {
+    setErrorMessage(response.getErrorMessage());
+  } else {
+    bankAccounts = response.getBody();
+    createBankAccountTableRows(bankAccounts);
+  }
 }
 
 async function saveBankAccount(event) {
@@ -23,7 +29,8 @@ async function saveBankAccount(event) {
   if(response.hasError()) {
     setErrorMessage(response.getErrorMessage());
   } else {
-    await getBankAccounts();
+    bankAccounts.push({acronym: body.acronym, description: body.description});
+    createBankAccountTableRows(bankAccounts);
     document.getElementById('accountForm').reset();
   }
 }
